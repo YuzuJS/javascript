@@ -1,8 +1,8 @@
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/airbnb/javascript?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-# Airbnb JavaScript Style Guide() {
+# YuzuJS JavaScript Style Guide() {
 
-*A mostly reasonable approach to JavaScript*
+*How we do JavaScript here at Yuzu*
 
 
 ## Table of Contents
@@ -86,20 +86,19 @@
     var item = {};
     ```
 
-  - Don't use [reserved words](http://es5.github.io/#x7.6.1) as keys. It won't work in IE8. [More info](https://github.com/airbnb/javascript/issues/61)
+  - Use [reserved words](http://es5.github.io/#x7.6.1) as keys with caution and only if you give an ES3 alternative. If you do, use bracket notation.
 
     ```javascript
     // bad
-    var superman = {
-      default: { clark: 'kent' },
-      private: true
-    };
+    function Thingie() {
+      this.delete = deleteTheThingie;
+    }
 
     // good
-    var superman = {
-      defaults: { clark: 'kent' },
-      hidden: true
-    };
+    function Thingie() {
+      this["delete"] = deleteTheThingie;
+      this.remove = deleteTheThingie;
+    }
     ```
 
   - Use readable synonyms in place of reserved words.
@@ -178,20 +177,20 @@
 
 ## Strings
 
-  - Use single quotes `''` for strings
+  - Use double quotes `""` for strings
 
     ```javascript
     // bad
-    var name = "Bob Parr";
-
-    // good
     var name = 'Bob Parr';
-
+    
+    // good
+    var name = "Bob Parr";
+    
     // bad
-    var fullName = "Bob " + this.lastName;
+    var fullName = 'Bob ' + this.lastName;
 
     // good
-    var fullName = 'Bob ' + this.lastName;
+    var fullName = "Bob " + this.lastName;
     ```
 
   - Strings longer than 80 characters should be written across multiple lines using string concatenation.
@@ -266,7 +265,7 @@
 
     ```javascript
     // anonymous function expression
-    var anonymous = function() {
+    var anonymous = function () {
       return true;
     };
 
@@ -276,7 +275,7 @@
     };
 
     // immediately-invoked function expression (IIFE)
-    (function() {
+    (function () {
       console.log('Welcome to the Internet. Please follow me.');
     })();
     ```
@@ -330,7 +329,7 @@
     };
 
     // bad
-    var isJedi = luke['jedi'];
+    var isJedi = luke["jedi"];
 
     // good
     var isJedi = luke.jedi;
@@ -348,7 +347,7 @@
       return luke[prop];
     }
 
-    var isJedi = getProp('jedi');
+    var isJedi = getProp("jedi");
     ```
 
 **[⬆ back to top](#table-of-contents)**
@@ -375,18 +374,18 @@
     // bad
     var items = getItems(),
         goSportsTeam = true,
-        dragonball = 'z';
+        dragonball = "z";
 
     // bad
     // (compare to above, and try to spot the mistake)
     var items = getItems(),
         goSportsTeam = true;
-        dragonball = 'z';
+        dragonball = "z";
 
     // good
     var items = getItems();
     var goSportsTeam = true;
-    var dragonball = 'z';
+    var dragonball = "z";
     ```
 
   - Declare unassigned variables last. This is helpful when later on you might need to assign a variable depending on one of the previous assigned variables.
@@ -416,15 +415,15 @@
 
     ```javascript
     // bad
-    function() {
+    function () {
       test();
-      console.log('doing stuff..');
+      console.log("doing stuff..");
 
       //..other stuff..
 
       var name = getName();
 
-      if (name === 'test') {
+      if (name === "test") {
         return false;
       }
 
@@ -432,11 +431,11 @@
     }
 
     // good
-    function() {
+    function () {
       var name = getName();
 
       test();
-      console.log('doing stuff..');
+      console.log("doing stuff..");
 
       //..other stuff..
 
@@ -448,7 +447,7 @@
     }
 
     // bad
-    function() {
+    function () {
       var name = getName();
 
       if (!arguments.length) {
@@ -459,7 +458,7 @@
     }
 
     // good
-    function() {
+    function () {
       if (!arguments.length) {
         return false;
       }
@@ -511,7 +510,7 @@
 
       anonymous(); // => TypeError anonymous is not a function
 
-      var anonymous = function() {
+      var anonymous = function () {
         console.log('anonymous function expression');
       };
     }
@@ -528,7 +527,7 @@
       superPower(); // => ReferenceError superPower is not defined
 
       var named = function superPower() {
-        console.log('Flying');
+        console.log("Flying");
       };
     }
 
@@ -540,7 +539,7 @@
       named(); // => TypeError named is not a function
 
       var named = function named() {
-        console.log('named');
+        console.log("named");
       }
     }
     ```
@@ -629,10 +628,10 @@
     }
 
     // bad
-    function() { return false; }
+    function () { return false; }
 
     // good
-    function() {
+    function () {
       return false;
     }
     ```
@@ -735,22 +734,22 @@
 
 ## Whitespace
 
-  - Use soft tabs set to 2 spaces
+  - Use soft tabs set to 4 spaces
 
     ```javascript
     // bad
-    function() {
-    ∙∙∙∙var name;
+    function () {
+    ∙∙var name;
     }
 
     // bad
-    function() {
+    function () {
     ∙var name;
     }
 
     // good
-    function() {
-    ∙∙var name;
+    function () {
+    ∙∙∙∙var name;
     }
     ```
 
@@ -780,6 +779,30 @@
     });
     ```
 
+  - Always place 1 space after `function`.
+
+    ```javascript
+    // bad
+    function test (){
+      console.log('test');
+    }
+
+    // good
+    function test() {
+      console.log('test');
+    }
+
+    // bad
+    var test = function(){
+      console.log('test');
+    }
+
+    // good
+    var test = function () {
+      console.log('test');
+    }
+    ```
+
   - Set off operators with spaces.
 
     ```javascript
@@ -794,14 +817,14 @@
 
     ```javascript
     // bad
-    (function(global) {
+    (function (global) {
       // ...stuff...
     })(this);
     ```
 
     ```javascript
     // bad
-    (function(global) {
+    (function (global) {
       // ...stuff...
     })(this);↵
     ↵
@@ -809,7 +832,7 @@
 
     ```javascript
     // good
-    (function(global) {
+    (function (global) {
       // ...stuff...
     })(this);↵
     ```
@@ -920,19 +943,19 @@
 
     ```javascript
     // bad
-    (function() {
+    (function () {
       var name = 'Skywalker'
       return name
     })()
 
     // good
-    (function() {
+    (function () {
       var name = 'Skywalker';
       return name;
     })();
 
     // good (guards against the function becoming an argument when two files with IIFEs are concatenated)
-    ;(function() {
+    ;(function () {
       var name = 'Skywalker';
       return name;
     })();
@@ -1098,25 +1121,25 @@
 
     ```javascript
     // bad
-    function() {
+    function () {
       var self = this;
-      return function() {
+      return function () {
         console.log(self);
       };
     }
 
     // bad
-    function() {
+    function () {
       var that = this;
-      return function() {
+      return function () {
         console.log(that);
       };
     }
 
     // good
-    function() {
+    function () {
       var _this = this;
-      return function() {
+      return function () {
         console.log(_this);
       };
     }
@@ -1126,7 +1149,7 @@
 
     ```javascript
     // bad
-    var log = function(msg) {
+    var log = function (msg) {
       console.log(msg);
     };
 
@@ -1183,11 +1206,11 @@
       this.set('lightsaber', lightsaber);
     }
 
-    Jedi.prototype.set = function(key, val) {
+    Jedi.prototype.set = function (key, val) {
       this[key] = val;
     };
 
-    Jedi.prototype.get = function(key) {
+    Jedi.prototype.get = function (key) {
       return this[key];
     };
     ```
@@ -1229,12 +1252,12 @@
 
     ```javascript
     // bad
-    Jedi.prototype.jump = function() {
+    Jedi.prototype.jump = function () {
       this.jumping = true;
       return true;
     };
 
-    Jedi.prototype.setHeight = function(height) {
+    Jedi.prototype.setHeight = function (height) {
       this.height = height;
     };
 
@@ -1243,12 +1266,12 @@
     luke.setHeight(20); // => undefined
 
     // good
-    Jedi.prototype.jump = function() {
+    Jedi.prototype.jump = function () {
       this.jumping = true;
       return this;
     };
 
-    Jedi.prototype.setHeight = function(height) {
+    Jedi.prototype.setHeight = function (height) {
       this.height = height;
       return this;
     };
@@ -1290,7 +1313,7 @@
 
     ...
 
-    $(this).on('listingUpdated', function(e, listingId) {
+    $(this).on('listingUpdated', function (e, listingId) {
       // do something with listingId
     });
     ```
@@ -1303,7 +1326,7 @@
 
     ...
 
-    $(this).on('listingUpdated', function(e, data) {
+    $(this).on('listingUpdated', function (e, data) {
       // do something with data.listingId
     });
     ```
@@ -1321,7 +1344,7 @@
     ```javascript
     // fancyInput/fancyInput.js
 
-    !function(global) {
+    !function (global) {
       'use strict';
 
       var previousFancyInput = global.FancyInput;
@@ -1416,7 +1439,7 @@
   - **Yup.**
 
     ```javascript
-    function() {
+    function () {
       return true;
     }
     ```
