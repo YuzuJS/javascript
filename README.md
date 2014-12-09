@@ -84,21 +84,6 @@
     var item = {};
     ```
 
-  - Use [reserved words](http://es5.github.io/#x7.6.1) as keys with caution and only if you give an ES3 alternative. If you do, use bracket notation.
-
-    ```javascript
-    // bad
-    function Thingie() {
-      this.delete = deleteTheThingie;
-    }
-
-    // good
-    function Thingie() {
-      this["delete"] = deleteTheThingie;
-      this.remove = deleteTheThingie;
-    }
-    ```
-
   - Use readable synonyms in place of reserved words.
 
     ```javascript
